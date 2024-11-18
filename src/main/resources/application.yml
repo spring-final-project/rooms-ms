@@ -14,7 +14,7 @@ spring:
     hibernate:
       dialect: org.hibernate.dialect.PostgreSQLDialect
   kafka:
-    bootstrap-servers: ${KAFKA_HOST}:${KAFKA_PORT}
+    bootstrap-servers: ${KAFKA_URL}
     consumer:
       group-id: rooms-ms
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
