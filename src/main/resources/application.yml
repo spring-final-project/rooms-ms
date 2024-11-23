@@ -2,6 +2,9 @@ server:
   port: ${PORT:8080}
 
 spring:
+  web:
+    resources:
+      static-locations: file:images/
   application:
     name: rooms-ms
   config:
@@ -50,8 +53,9 @@ resilience4j:
 cloud:
   aws:
     s3:
+      region: ${S3_BUCKET_REGION:sa-east-1}
       bucket:
-        name: ${S3_BUCKET_NAME}
+        name: ${S3_BUCKET_NAME:filesystem}
 
 springdoc:
   swagger-ui:

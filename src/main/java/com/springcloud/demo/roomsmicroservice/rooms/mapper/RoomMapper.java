@@ -76,8 +76,7 @@ public class RoomMapper {
                 .images(room
                         .getImages()
                         .stream()
-                        .map(image ->
-                                "https://spring-final-project-rooms.s3.sa-east-1.amazonaws.com/" + image.getUrl()
+                        .map(Image::getUrl
                         )
                         .toList())
                 .simpleBeds(room.getSimpleBeds())

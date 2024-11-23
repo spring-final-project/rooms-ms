@@ -4,6 +4,8 @@ import com.springcloud.demo.roomsmicroservice.exceptions.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -20,12 +22,16 @@ import java.util.concurrent.CompletableFuture;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class S3Service implements ImageProviderService {
+@ConditionalOnExpression("!'${cloud.aws.s3.bucket.name}'.equals('filesystem')")
+public class S3Provider implements ImageProviderService {
 
     private final S3Client s3Client;
 
     @Value("${cloud.aws.s3.bucket.name}")
     private String bucket;
+
+    @Value("${cloud.aws.s3.region}")
+    private String region;
 
     @Override
     public List<String> uploadImages(List<MultipartFile> files, String folder) {
@@ -46,7 +52,7 @@ public class S3Service implements ImageProviderService {
                 PutObjectResponse response = s3Client.putObject(request, RequestBody.fromBytes(file.getBytes()));
 
                 if (response.sdkHttpResponse().isSuccessful()) {
-                    urlImagesSaved.add(key);
+                    urlImagesSaved.add("https://" + bucket + ".s3." + region + ".amazonaws.com/" + key);
                 } else {
                     log.error("Error uploading file: {}", file.getOriginalFilename());
                     filesRejected.add(file);

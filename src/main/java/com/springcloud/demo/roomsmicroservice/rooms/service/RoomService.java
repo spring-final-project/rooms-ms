@@ -127,6 +127,7 @@ public class RoomService {
                 .findById(UUID.fromString(id))
                 .orElseThrow(() -> new NotFoundException("Not found room by id: " + id));
 
+        System.out.println("ownerId = " + room.getOwnerId());
         if(!room.getOwnerId().toString().equals(idUserLogged)){
             throw new ForbiddenException("Not have permission to delete room that belong to another user");
         }
