@@ -102,7 +102,7 @@ class RoomMapperTest {
         assertThat(response.getNum()).isEqualTo(room.getNum());
         assertThat(response.getFloor()).isEqualTo(room.getFloor());
         assertThat(response.getImages().size()).isEqualTo(1);
-        assertThat(response.getImages().getFirst()).isEqualTo("https://spring-final-project-rooms.s3.sa-east-1.amazonaws.com/" + room.getImages().getFirst().getUrl());
+        assertThat(response.getImages().getFirst()).isEqualTo(room.getImages().getFirst().getUrl());
         assertThat(response.getDoubleBeds()).isEqualTo(room.getDoubleBeds());
         assertThat(response.getMaxCapacity()).isEqualTo(room.getMaxCapacity());
         assertThat(response.getDescription()).isEqualTo(room.getDescription());
